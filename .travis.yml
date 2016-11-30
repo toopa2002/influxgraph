@@ -8,10 +8,11 @@ python:
   - 3.5
   - pypy
 env:
-  - INFLUXDB_VERSION=1.1.0
   - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+    INFLUXDB_VERSION=1.1.0
   - DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
     PRE_CMD=linux32
+    INFLUXDB_VERSION=1.1.0
 before_install:
   - pip install -U pip setuptools wheel
   - wget https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb
