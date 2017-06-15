@@ -24,6 +24,10 @@ import hashlib
 import memcache
 from .constants import INFLUXDB_AGGREGATIONS
 
+import logging
+import time
+logger = logging.getLogger('influxgraph')
+
 try:
     from .ext.nodetrie import Node
 except ImportError:
@@ -273,6 +277,7 @@ def parse_series(series, fields, graphite_templates, separator='.'):
         # If we have metrics with tags in them split them out and
         # pre-generate a correctly ordered split path for that metric
         # to be inserted into index
+        t = time.time()
         if graphite_templates or ',' in serie:
             serie_with_tags = serie.split(',')
             if graphite_templates:
@@ -287,4 +292,5 @@ def parse_series(series, fields, graphite_templates, separator='.'):
         # No tags, no template
         else:
             index.insert(serie)
+        logger.debug("serie %s consume %.6f seconds" % (serie,(time.time() - t)))
     return index
